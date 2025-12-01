@@ -56,3 +56,4 @@ nunit-*.xml
 /.vs
 /Inambu_Test/.vs/Inambu_Test
 /Inambu_Test/.vs/ProjectEvaluation
+/Inambu_Test/Inambu_Test/Inambu_Test_Web.csproj.user
