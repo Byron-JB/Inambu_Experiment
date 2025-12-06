@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+
+<!-- Example for CSS in _Layout.cshtml or index.html -->
+<link href="css/vuexy/bootstrap.css" rel="stylesheet" />
+<link href="css/vuexy/app.css" rel="stylesheet" />
+
+<!-- Example for JS before </body> in _Layout.cshtml or index.html -->
+<script src="js/vuexy/jquery.min.js"></script>
+<script src="js/vuexy/bootstrap.bundle.min.js"></script>
+<script src="js/vuexy/app.js"></script>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div >
+            <a asp-controller="Test" asp-action="TestPage" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-smart-home"></i>
+                <div data-i18n="TestPage">TestPage</div>
+            </a>
+        </div>
+        <div class="top-row px-4">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>

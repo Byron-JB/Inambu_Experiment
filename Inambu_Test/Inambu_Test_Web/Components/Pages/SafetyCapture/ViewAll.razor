@@ -1,0 +1,54 @@
+﻿@page "/SafetyCapture/ViewAll"
+@using Application.DTO
+@inject MediatR.IMediator _mediator
+@using Microsoft.AspNetCore.Components.QuickGrid
+
+<h3>ViewAll</h3>
+
+@if (allMeasurements is null)
+{
+    <p>Data is loading</p>
+}
+else
+{
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>productionLine</th>
+                <th>Depth</th>
+                <th>Weight</th>
+                <th>Humidity</th>
+                <th>Temperature</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var measurement in allMeasurements)
+            {
+                <tr>
+                    <td>@measurement.MeasurementId</td>
+                    <td>@measurement.productionLine</td>
+                    <td>@measurement.Depth</td>
+                    <td>@measurement.Weight</td>
+                    <td>@measurement.Humidity</td>
+                    <td>@measurement.Temperature</td>
+                    <td>@measurement.CreatedDate</td>
+                </tr>
+            }
+    </tbody>
+    </table>
+
+}
+
+@code {
+    private IQueryable<MeasurementDTO> allMeasurements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = new Application.Features.Queries.GetAllMeasurementsQuery();
+        allMeasurements = (await _mediator.Send(query)).AsQueryable();
+        var a = allMeasurements;
+    }
+}

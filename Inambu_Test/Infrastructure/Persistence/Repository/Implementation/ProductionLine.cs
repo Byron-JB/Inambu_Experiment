@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Domain.Entities;
+using Infrastructure.Persistence.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,54 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
-    internal class ProductionLine
+    public class ProductionLine : IProductionLine
     {
+        private readonly ApplicationDbContext _context;
+
+        public ProductionLine(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// Fetch all production lines
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<tblProductionLine>> GetAllProductionLines()
+        {
+            try
+            {
+                var productionLines = await _context.tblProductionLines
+                    .Where(pl => !pl.IsDeleted)
+                    .ToListAsync();
+                return productionLines;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Fetch a production line by its ID
+        /// </summary>
+        /// <param name="lineId"></param>
+        /// <returns></returns>
+        public async Task<tblProductionLine?> GetProductionLineById(int lineId)
+        {
+            try
+            {
+                var productionLine = await _context.tblProductionLines
+                    .FirstOrDefaultAsync(pl => pl.iLineId == lineId && !pl.IsDeleted);
+                return productionLine;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
     }
 }
