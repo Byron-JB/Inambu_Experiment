@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Models.DTO
 {
-    public class SafetyCaptureDTO
+    public class MeasurementCaptureDTO
     {
         [SetsRequiredMembers]
-        public SafetyCaptureDTO() 
+        public MeasurementCaptureDTO() 
         {
             
         }

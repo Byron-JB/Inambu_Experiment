@@ -1,9 +1,4 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Interface
 {
@@ -11,6 +6,11 @@ namespace Infrastructure.Persistence.Repository.Interface
     {
         Task<int?> CreateMeasurement(tblMeasurement measurement);
 
+        Task<tblMeasurement?> GetMeasurementById(int measurementId);
+
         Task<List<tblMeasurement?>> GetAllMeasurements();
+
+        Task<bool> DeleteMeasurement(int measurementId);
+        Task<bool> UpdateMeasurement(tblMeasurement measurement);
     }
 }

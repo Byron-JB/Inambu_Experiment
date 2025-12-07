@@ -1,12 +1,6 @@
-﻿using Application.DTO;
+﻿using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Queries
 {

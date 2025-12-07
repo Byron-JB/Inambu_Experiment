@@ -1,7 +1,6 @@
 ﻿@page "/SafetyCapture/Create"
 
 @rendermode InteractiveServer
-@using Application.DTO
 @using Application.Features.Commands
 @using Application.Models.DTO
 @inject MediatR.IMediator _mediator
@@ -9,13 +8,13 @@
 
 <h3>SafetyCapture</h3>
 
-<EditForm Model="@safetyCaptureDTO" OnValidSubmit="HandleValidSubmit" FormName="test6" >
+<EditForm Model="@measurementCaptureDTO" OnValidSubmit="HandleValidSubmit" FormName="test6">
     <DataAnnotationsValidator />
     <ValidationSummary />
     
     <div>
         <label>Production Line</label>
-        <InputSelect @bind-Value="safetyCaptureDTO.ProductionLineID">
+        <InputSelect @bind-Value="measurementCaptureDTO.ProductionLineID">
             <option value="">-- Select --</option>
 
             @if (availableProductionLines != null)
@@ -32,51 +31,51 @@
     </div>
     <div>
         <label>Temperature</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Temperature" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Temperature" class="form-control" />
     </div>
 
     <div>
         <label>Humidity</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Humidity" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Humidity" class="form-control" />
     </div>
 
     <div>
         <label>Weight</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Weight" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Weight" class="form-control" />
     </div>
 
     <div>
         <label>Width</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Width" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Width" class="form-control" />
     </div>
 
     <div>
         <label>Length</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Length" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Length" class="form-control" />
     </div>
 
     <div>
         <label>Depth</label>
-        <InputNumber @bind-Value="safetyCaptureDTO.Depth" class="form-control" />
+        <InputNumber @bind-Value="measurementCaptureDTO.Depth" class="form-control" />
     </div>
 
     <div>
         <label>Is Within Specification</label>
-        <InputCheckbox @bind-Value="safetyCaptureDTO.IsWithinSpecification" />
+        <InputCheckbox @bind-Value="measurementCaptureDTO.IsWithinSpecification" />
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
-    private SafetyCaptureDTO safetyCaptureDTO = new SafetyCaptureDTO();
+    private MeasurementCaptureDTO measurementCaptureDTO = new MeasurementCaptureDTO();
     private List<ProductionLineDTO?> availableProductionLines = new List<ProductionLineDTO?>();
 
     private async Task HandleValidSubmit()
     {
         try
         {
-            var result = await _mediator.Send(new CreateSafetyReadingCommand(safetyCaptureDTO));
+            var result = await _mediator.Send(new CreateMeasurementReadingCommand(measurementCaptureDTO));
             // Log or show result; handler currently returns CommandResult
             //statusMessage = result?.Success == true ? "Submitted successfully." : $"Submit failed: {result?.Message ?? "unknown"}";
             await JsRuntime.InvokeVoidAsync("console.log", result);
@@ -97,7 +96,7 @@
     {
         if (int.TryParse(e.Value?.ToString(), out int selectedId))
         {
-            safetyCaptureDTO.ProductionLineID = selectedId;
+            measurementCaptureDTO.ProductionLineID = selectedId;
         }
     }
 

@@ -1,0 +1,78 @@
+﻿@page "/SafetyCapture/Edit/{Id:int}"
+
+@rendermode InteractiveServer
+@using Application.Features.Commands
+@using Application.Features.Queries
+@using Application.Models.DTO
+@inject MediatR.IMediator _mediator
+
+<h3>Edit</h3>
+
+<EditForm Model="@measurementDTO" OnInvalidSubmit="HandleValidSubmit">
+    <div>
+        <label>Temperature</label>
+        <InputNumber @bind-Value="measurementDTO.Temperature" class="form-control" />
+    </div>
+
+    <div>
+        <label>Humidity</label>
+        <InputNumber @bind-Value="measurementDTO.Humidity" class="form-control" />
+    </div>
+
+    <div>
+        <label>Weight</label>
+        <InputNumber @bind-Value="measurementDTO.Weight" class="form-control" />
+    </div>
+
+    <div>
+        <label>Width</label>
+        <InputNumber @bind-Value="measurementDTO.Width" class="form-control" />
+    </div>
+
+    <div>
+        <label>Length</label>
+        <InputNumber @bind-Value="measurementDTO.Length" class="form-control" />
+    </div>
+
+    <div>
+        <label>Depth</label>
+        <InputNumber @bind-Value="measurementDTO.Depth" class="form-control" />
+    </div>
+
+    <div>
+        <label>Is Within Specification</label>
+        <InputCheckbox @bind-Value="measurementDTO.IsWithinSpecification" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private MeasurementDTO measurementDTO = new ();
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var query = new GetMeasurementQuery(Id);
+
+        var safetyCaptureDTO = await _mediator.Send(query);
+
+        measurementDTO = safetyCaptureDTO ?? new MeasurementDTO();
+
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var command = new UpdateSingleMeasurementCommand(measurementDTO);
+            var result = await _mediator.Send(command);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions
+        }
+    }
+}

@@ -1,5 +1,5 @@
 ﻿using Application.Contract.Common;
-using Application.DTO;
+using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
 using System;
