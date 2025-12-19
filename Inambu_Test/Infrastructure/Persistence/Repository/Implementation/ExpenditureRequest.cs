@@ -24,6 +24,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
             try
             {
                 tblExpenditureRequest? expenditureRequest = await _context.tblExpenditureRequests
+                    .Include(x => x.tblExpenditureApprovalMembersNavigation)
                     .FirstOrDefaultAsync(x => x.expenditureRequestId == Id);
 
                 if(expenditureRequest == null) 

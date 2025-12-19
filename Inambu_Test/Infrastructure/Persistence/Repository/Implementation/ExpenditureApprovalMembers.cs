@@ -36,8 +36,45 @@ namespace Infrastructure.Persistence.Repository.Implementation
         }
 
         public void Dispose()
+        { 
+        }
+
+        public async Task<bool> SetMemberApprovalEntryStatusToRejected(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var itemsUpdated =await _context.tblExpenditureApprovalMembers
+                    .Where(x => x.iMemberApprovalEntryId == id)
+                    .ExecuteUpdateAsync(
+                        x => x.SetProperty(y => y.isRejected,true)
+                    );
+
+                return itemsUpdated > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<bool> SetMemberApprovalEntryStatusToApproved(int id)
+        {
+            try
+            {
+                var itemsUpdated = await _context.tblExpenditureApprovalMembers
+                    .Where(x => x.iMemberApprovalEntryId == id)
+                    .ExecuteUpdateAsync(
+                        x => x.SetProperty(y => y.isApproved, true)
+                    );
+
+                return itemsUpdated > 0;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

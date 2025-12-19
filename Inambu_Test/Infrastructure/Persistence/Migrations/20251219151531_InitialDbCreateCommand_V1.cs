@@ -133,7 +133,7 @@ namespace Infrastructure.Persistence.Migrations
                 name: "tblExpenditureApprovalMembers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    iMemberApprovalEntryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     iOrder = table.Column<int>(type: "int", nullable: false),
                     isApproved = table.Column<bool>(type: "bit", nullable: false),
@@ -150,7 +150,7 @@ namespace Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblExpenditureApprovalMembers", x => x.Id);
+                    table.PrimaryKey("PK_tblExpenditureApprovalMembers", x => x.iMemberApprovalEntryId);
                     table.ForeignKey(
                         name: "FK_tblExpenditureApprovalMembers_tblExpenditureRequests_expenditureRequestId",
                         column: x => x.expenditureRequestId,

@@ -1,10 +1,8 @@
-﻿@page "/ExpenditureAprovals/ViewPending"
-@using Application.Features.Commands
+﻿@page "/ExpenditureAprovals/ViewApproved"
 @using Application.Features.Queries
 @using Application.Models.DTO;
 @using Application.Models.Enum
 @inject MediatR.IMediator _mediator;
-@rendermode InteractiveServer
 
 
 <div style="padding-bottom:2rem">
@@ -38,7 +36,7 @@ else
                         <td>@expenditureAproval.requestId</td>
                         <td>@expenditureAproval.Title</td>
                         <td>@expenditureAproval.Description</td>
-                        <th>@expenditureAproval.CreatedBy</th>
+                        <th>Created By</th>
                         <td>
                             <div class="dropdown">
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -47,9 +45,9 @@ else
                                     </svg>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item" @onclick="() => RejectRequest(expenditureAproval.requestId)"><i class="icon-base ti tabler-pencil me-1"></i>Reject</button>
-                                    <a class="dropdown-item"><i class="icon-base ti tabler-trash me-1"></i>Delete</a>
-                                    <a class="dropdown-item"><i class="icon-base ti tabler-trash me-1"></i>Approve</a>
+                                    <a class="dropdown-item" href="@expenditureAproval.requestId"><i class="icon-base ti tabler-pencil me-1"></i>Reject</a>
+                                    <a class="dropdown-item" href="@expenditureAproval.requestId"><i class="icon-base ti tabler-trash me-1"></i>Delete</a>
+                                    <a class="dropdown-item" href="@expenditureAproval.requestId"><i class="icon-base ti tabler-trash me-1"></i>Approve</a>
                                 </div>
                             </div>
                         </td>
@@ -68,16 +66,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        GetAllExpenditureRequestsQuery query = new GetAllExpenditureRequestsQuery(ExpenditureApprovalFetchTypes.FetchPending);
+        GetAllExpenditureRequestsQuery query = new GetAllExpenditureRequestsQuery(ExpenditureApprovalFetchTypes.FetchApproved);
 
         expenditureApprovals = (await _mediator.Send(query)).AsQueryable();
 
     }
 
-    protected async void RejectRequest(int requestId)
-    {
-        RejectExpenditureRequestCommand command = new RejectExpenditureRequestCommand(requestId);
-
-        var result = await _mediator.Send(command);
-    }
 }

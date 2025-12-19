@@ -13,7 +13,7 @@ namespace Domain.Entities
         public tblExpenditureApprovalMembers() { }
 
         [Key]
-        public int Id { get; set; }
+        public int iMemberApprovalEntryId { get; set; }
         public int iOrder { get; set; } = 0;
         public bool isApproved { get; set; } = false;
 

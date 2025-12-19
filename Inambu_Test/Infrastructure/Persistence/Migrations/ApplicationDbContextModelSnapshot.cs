@@ -24,11 +24,11 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.tblExpenditureApprovalMembers", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("iMemberApprovalEntryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("iMemberApprovalEntryId"));
 
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
@@ -66,7 +66,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("isRejected")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("iMemberApprovalEntryId");
 
                     b.HasIndex("UseriUserId");
 
@@ -300,7 +300,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("UseriUserId");
 
                     b.HasOne("Domain.Entities.tblExpenditureRequest", "ExpenditureRequest")
-                        .WithMany()
+                        .WithMany("tblExpenditureApprovalMembersNavigation")
                         .HasForeignKey("expenditureRequestId");
 
                     b.Navigation("ExpenditureRequest");
@@ -324,6 +324,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasForeignKey("RolesiRoleId");
 
                     b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("Domain.Entities.tblExpenditureRequest", b =>
+                {
+                    b.Navigation("tblExpenditureApprovalMembersNavigation");
                 });
 #pragma warning restore 612, 618
         }

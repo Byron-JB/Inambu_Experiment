@@ -15,5 +15,6 @@ namespace Application.Models.DTO
         public bool IsApproved { get; set; }
         public bool IsRejected { get; set; }
         public int userID { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
     }
 }
