@@ -9,13 +9,18 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
-    public class ProductionLine : IProductionLine
+    public class ProductionLine : IProductionLine, IDisposable
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductionLine(ApplicationDbContext context)
+        public ProductionLine(IDbContextFactory<ApplicationDbContext> context)
         {
-            _context = context;
+            _context = context.CreateDbContext(); ;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

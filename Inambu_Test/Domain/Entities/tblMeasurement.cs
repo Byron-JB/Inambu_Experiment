@@ -20,6 +20,8 @@ namespace Domain.Entities
         public decimal dLength { get; set; }
         public decimal dDepth { get; set; }
         public required bool bIsWithinSpecification { get; set; } = false;
+        public int? iLineId { get; set; }
+        [ForeignKey("iLineId")]
         public virtual tblProductionLine? ProductionLineNavigation { get; set; }
     }
 }

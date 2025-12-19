@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
-    public class Measurement : IMeasurement
+    public class Measurement : IMeasurement , IDisposable
     {
         private readonly ApplicationDbContext _context;
 
-        public Measurement(ApplicationDbContext context)
+        public Measurement(IDbContextFactory<ApplicationDbContext> context)
         {
-            _context = context;
+            _context = context.CreateDbContext();
         }
 
         public async Task<int?> CreateMeasurement(tblMeasurement measurement)
@@ -111,6 +111,11 @@ namespace Infrastructure.Persistence.Repository.Implementation
             {
                 return false;
             }
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

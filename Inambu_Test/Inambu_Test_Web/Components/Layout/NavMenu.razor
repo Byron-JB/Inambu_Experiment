@@ -1,31 +1,122 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Application.Features.Queries
+@using System.Net
+@inject MediatR.IMediator _mediator
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@inject IHttpContextAccessor HttpContextAccessor
+@inject Inambu_Test_Web.Services.CookieService _cookieService
+
+<nav class="navbar navbar-expand-lg" style="background-color:#00245d">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Inambu_Test</a>
+        <a class="navbar-brand" href="javascript:void(0)">Inambu Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/SafetyCapture/viewall">View Safety Captures</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Expenditure Approvals
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/ExpenditureAprovals/ViewPending">View Pending</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)">View Rejected</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)">View Accepted</a></li>
+                    </ul>
+                </li>
+            </ul>
+                <div class="btn-group">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if(userName is not null)
+                        {
+                            @userName;
+                        }
+                        else
+                        {
+                        }
+                    </button>
+                <InputSelect class="dropdown-menu" aria-labelledby="dropdownMenuButton" @bind-Value="userID">
+                        @if(listOfUsers is not null){
+                            @foreach (var user in listOfUsers)
+                            {
+                                <option class="dropdown-item" value="@user.Key">@user.Value</option>
+                            }
+                        }
+                    </InputSelect >
+                </div>
+        </div>
     </div>
-</div>
+</nav>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+@code{
+    Dictionary<int, string> listOfUsers = new();
+    string userName = string.Empty;
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+    protected int? userID
+    {
+        set { UpdateUser(value ?? 0); }
+        get { return _cookieService.GetUserIdFromCookie(); }
+    }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+    protected override async Task OnInitializedAsync()
+    {
+        listOfUsers = await _mediator.Send(
+            new GetListOfUsersQuery()
+        );
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
+        var httpContext = HttpContextAccessor.HttpContext;
+
+        if (httpContext != null)
+        {
+
+            httpContext.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
+
+            if (string.IsNullOrEmpty(userNameFromCookie))
+            {
+                var firstUser = listOfUsers.FirstOrDefault();
+                await _cookieService.SetCookies(firstUser.Key,firstUser.Value);
+
+                userName = firstUser.Value;
+            }
+            else
+            {
+                userName = userNameFromCookie;
+            }
+        }
+    }
+
+    protected async void UpdateUser(int userId)
+    {
+        try
+        {
+            string userNameFromDb = await _mediator.Send(
+                new GetUserNameByIDQuery(userId)
+            );
+
+            userName = userNameFromDb;
+
+           // await SetCookies(userId, userNameFromDb);
+
+          await JSRuntime.InvokeVoidAsync(
+              "setMyCookie",
+                "userName",
+              userNameFromDb,
+              30
+          );
+
+          
+        }
+        catch (Exception)
+        {
+            throw;
+        }
 
 
+    }
+}

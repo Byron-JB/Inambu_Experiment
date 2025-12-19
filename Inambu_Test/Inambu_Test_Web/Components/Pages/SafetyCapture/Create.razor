@@ -5,6 +5,10 @@
 @using Application.Models.DTO
 @inject MediatR.IMediator _mediator
 @inject IJSRuntime JsRuntime
+@inject IHttpContextAccessor HttpContextAccessor
+@inject Inambu_Test_Web.Services.CookieService _cookieService
+@inject NavigationManager NavigationManager
+
 
 <h3>SafetyCapture</h3>
 
@@ -75,7 +79,16 @@
     {
         try
         {
+
+            HttpContextAccessor.HttpContext?.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
+
+            measurementCaptureDTO.UserId = _cookieService.GetUserIdFromCookie() ?? 0;
             var result = await _mediator.Send(new CreateMeasurementReadingCommand(measurementCaptureDTO));
+
+            if (result.IsSuccess)
+            {
+                NavigationManager.NavigateTo("/SafetyCapture/ViewAll");
+            }
             // Log or show result; handler currently returns CommandResult
             //statusMessage = result?.Success == true ? "Submitted successfully." : $"Submit failed: {result?.Message ?? "unknown"}";
             await JsRuntime.InvokeVoidAsync("console.log", result);

@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class tblUser : AuditableEntity
+    public class tblUserRoles : AuditableEntity
     {
+
+        public tblUserRoles() { }
+
         [Key]
-        public int iUserId { get; set; }
-        public required string strUserName { get; set; }
-        public int? iRoleId { get; set; }
-        public virtual tblUserRoles? Roles { get; set; }
+        public int iRoleId { get; set; }
+
+        public string strRoleName { get; set; } = string.Empty;
     }
 }

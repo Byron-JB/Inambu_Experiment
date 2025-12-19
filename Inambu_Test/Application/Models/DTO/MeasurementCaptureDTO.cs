@@ -23,5 +23,6 @@ namespace Application.Models.DTO
         public required decimal Depth { get; set; } = 0;
         public required bool IsWithinSpecification { get; set; } = false;
         public required int ProductionLineID { get; set; } = 0;
+        public int UserId { get; set; } = 0;
     }
 }

@@ -18,5 +18,7 @@ namespace Application.Models.DTO
         public bool IsWithinSpecification { get; set; }
         public DateTime CreatedDate { get; set; }
         public string productionLine { get; set; }
+        public string CreatedBy { get; set; }
+        public bool IsAllowedToEdit {  get; set; }
     }
 }

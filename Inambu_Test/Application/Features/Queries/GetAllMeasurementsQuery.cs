@@ -1,43 +1,53 @@
 ﻿using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
+using Microsoft.Kiota.Abstractions.Extensions;
 
 namespace Application.Features.Queries
 {
 
-    public record GetAllMeasurementsQuery() : IRequest<List<MeasurementDTO>>;
+    public record GetAllMeasurementsQuery( int userId ) : IRequest<List<MeasurementDTO>>;
 
     public class GetAllMeasurementsQueryHandler : IRequestHandler<GetAllMeasurementsQuery, List<MeasurementDTO>>
     {
         private readonly IMeasurement _measurement;
-        public GetAllMeasurementsQueryHandler(IMeasurement measurement)
+        private readonly IUser _user;
+        public GetAllMeasurementsQueryHandler(IMeasurement measurement, IUser user)
         {
             _measurement = measurement;
+            _user = user;
         }
         public async Task<List<MeasurementDTO>> Handle(GetAllMeasurementsQuery request, CancellationToken cancellationToken)
         {
-            var measurements = await _measurement.GetAllMeasurements();
+            var measurements = new List<MeasurementDTO>();
 
-            if (measurements.Any())
+            var measurementsFromDB = await _measurement.GetAllMeasurements();
+
+            if (measurementsFromDB.Any())
             {
-               return measurements.Select( measurement => new MeasurementDTO()
+                foreach (var measurement in measurementsFromDB)
                 {
-                    MeasurementId = measurement.iMeasurementID,
-                    Temperature = measurement.dTemperature,
-                    Humidity = measurement.dHumidity,
-                    Depth = measurement.dDepth,
-                    Weight = measurement.dWeight,
-                    Width = measurement.dWidth,
-                    Length = measurement.dLength,
-                    IsWithinSpecification = measurement.bIsWithinSpecification,
-                    CreatedDate = measurement.CreatedDate,
-                    productionLine = measurement.ProductionLineNavigation?.strLineName ?? "Unknown"
-                }).ToList();
+                    measurements.Add(new MeasurementDTO()
+                    {
+                        MeasurementId = measurement.iMeasurementID,
+                        Temperature = measurement.dTemperature,
+                        Humidity = measurement.dHumidity,
+                        Depth = measurement.dDepth,
+                        Weight = measurement.dWeight,
+                        Width = measurement.dWidth,
+                        Length = measurement.dLength,
+                        IsWithinSpecification = measurement.bIsWithinSpecification,
+                        CreatedDate = measurement.CreatedDate,
+                        productionLine = measurement.ProductionLineNavigation?.strLineName ?? "Unknown",
+                        CreatedBy = await _user.GetUserNameByIdAsync((int)measurement.CreatedBy!),
+                        IsAllowedToEdit = (request.userId == measurement.CreatedBy)
+                    }
+                    );
 
+                }
+                return measurements;
             }
 
-            return [];
-            //return [.. measurementDTOs];
-        }
+            return [];        }
     }
 }

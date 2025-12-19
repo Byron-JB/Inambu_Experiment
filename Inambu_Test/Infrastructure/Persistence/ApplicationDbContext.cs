@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Domain.Entities;
 
 namespace Infrastructure.Persistence
 {
@@ -36,8 +37,11 @@ namespace Infrastructure.Persistence
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        public DbSet<Domain.Entities.tblProductionLine> tblProductionLines { get; set; }
-        public DbSet<Domain.Entities.tblUser> tblUsers { get; set; }
-        public DbSet<Domain.Entities.tblMeasurement> tbMeasurements{  get; set; }
+        public DbSet<tblProductionLine> tblProductionLines { get; set; }
+        public DbSet<tblUser> tblUsers { get; set; }
+        public DbSet<tblMeasurement> tbMeasurements{  get; set; }
+        public DbSet<tblUserRoles> tblUserRoles { get; set; }
+        public DbSet<tblExpenditureRequest> tblExpenditureRequests { get; set; }
+        public DbSet<tblExpenditureApprovalMembers> tblExpenditureApprovalMembers { get; set; }
     }
 }

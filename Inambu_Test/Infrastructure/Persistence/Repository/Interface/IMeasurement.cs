@@ -8,7 +8,7 @@ namespace Infrastructure.Persistence.Repository.Interface
 
         Task<tblMeasurement?> GetMeasurementById(int measurementId);
 
-        Task<List<tblMeasurement?>> GetAllMeasurements();
+        Task<List<tblMeasurement>> GetAllMeasurements();
 
         Task<bool> DeleteMeasurement(int measurementId);
         Task<bool> UpdateMeasurement(tblMeasurement measurement);

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Interface
 {
-    public interface IUser
+    public interface IExpenditureApprovalMembers
     {
-        Task<string> GetUserNameByIdAsync(int userId);
-        Task<int> GetUserIdByNameAsync(string userName);
-        Task<List<tblUser>> GetAllUsersAsync();
-       
+        Task<int> CreateMemberApprovalEntry(tblExpenditureApprovalMembers approvalMember);
     }
 }

@@ -49,33 +49,46 @@ namespace Infrastructure.Perisitence
         public void SeedData()
         {
             // Seed initial data if necessary
-            SeedUsers();
-            SeedProductionLines(); 
-            SeedMeasurements();
+            SeedUserRoles().ConfigureAwait(true).GetAwaiter();
+            SeedUsers().ConfigureAwait(true).GetAwaiter();
+            SeedProductionLines().ConfigureAwait(true).GetAwaiter();
+            SeedMeasurements().ConfigureAwait(true).GetAwaiter();
+        }
+
+        /// <summary>
+        /// Creates the user types for the system
+        /// </summary>
+        public async Task SeedUserRoles()
+        {
+            if (!_context.tblUserRoles.Any()) 
+            {
+                await _context.tblUserRoles.AddRangeAsync(Seeds.GetSeedUserRoles());
+                await _context.SaveChangesAsync();
+            }
         }
 
         /// <summary>
         /// Adds seed users to the database if no users exist.
         /// </summary>
-        public void SeedUsers()
+        public async Task SeedUsers()
         {
 
             if (!_context.tblUsers.Any())
             {
-                _context.tblUsers.AddRange(Seeds.GetSeedUsers());
-                _context.SaveChanges();
+                await _context.tblUsers.AddRangeAsync(Seeds.GetSeedUsers());
+                await _context.SaveChangesAsync();
             }
         }
 
         /// <summary>
         /// Adds seed production lines to the database if no production lines exist.
         /// </summary>
-        public void SeedProductionLines()
+        public async Task SeedProductionLines()
         {
             if (!_context.tblProductionLines.Any())
             {
-                _context.tblProductionLines.AddRange(Seeds.GetSeedProductionLines());
-                _context.SaveChanges();
+                await _context.tblProductionLines.AddRangeAsync(Seeds.GetSeedProductionLines());
+                await _context.SaveChangesAsync();
             }
         }
 

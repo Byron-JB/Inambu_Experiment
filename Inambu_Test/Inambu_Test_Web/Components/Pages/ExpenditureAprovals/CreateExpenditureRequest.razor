@@ -1,0 +1,60 @@
+﻿@page "/ExpenditureApproval/Create"
+@using Application.Features.Commands
+@using Application.Models.DTO
+@inject MediatR.IMediator _mediator
+@rendermode InteractiveServer
+@inject Inambu_Test_Web.Services.CookieService _cookieService
+
+<!-- Modal -->
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <EditForm Model="@expenditureAprovalDTO" OnValidSubmit="HandleValidSubmitForExpenditureApproval">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">ReModal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-4">
+                            <label for="nameBasic" class="form-label">Title</label>
+                            <InputText class="form-control" @bind-Value="expenditureAprovalDTO.Title"></InputText>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-0">
+                            <label for="emailBasic" class="form-label">Description</label>
+                            <InputTextArea class="form-control" @bind-Value="expenditureAprovalDTO.Description"></InputTextArea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-0">
+                            <label for="amount" class="form-label">Amount</label>
+                            <InputNumber class="form-control" @bind-Value="expenditureAprovalDTO.Amount"></InputNumber>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </EditForm>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    ExpenditureAprovalDTO expenditureAprovalDTO = new ExpenditureAprovalDTO();
+
+
+    private void HandleValidSubmitForExpenditureApproval(EditContext args)
+    {
+        expenditureAprovalDTO.userID =(int) _cookieService.GetUserIdFromCookie();
+
+        CreateExpenditureApprovalCommand command = new CreateExpenditureApprovalCommand(expenditureAprovalDTO);
+
+        var result = _mediator.Send(command);
+
+    }
+}

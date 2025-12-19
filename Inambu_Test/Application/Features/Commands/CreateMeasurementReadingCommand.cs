@@ -46,8 +46,10 @@ namespace Application.Features.Commands
                 dDepth = request.SafetyCapture.Depth,
                 dWeight = request.SafetyCapture.Weight,
                 dWidth = request.SafetyCapture.Width,
+                dLength = request.SafetyCapture.Length,
                 bIsWithinSpecification = request.SafetyCapture.IsWithinSpecification,
-                ProductionLineNavigation = productionLine
+                iLineId = productionLine.iLineId,
+                CreatedBy = request.SafetyCapture.UserId
             };
 
             int? measurementID = await _measurement.CreateMeasurement(measurement);
