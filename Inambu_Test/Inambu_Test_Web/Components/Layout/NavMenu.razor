@@ -82,9 +82,6 @@
 
         if (httpContext != null)
         {
-
-            // httpContext.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
-
             string? userNameFromCookie = _cookieService.GetUserNameFromCookie();
 
             if (string.IsNullOrEmpty(userNameFromCookie))
@@ -108,11 +105,6 @@
             string userNameFromDb = await _mediator.Send(
                 new GetUserNameByIDQuery(userId)
             );
-
-            userName = userNameFromDb;
-
-            // await JS.InvokeVoidAsync("setCookieAndReload", "userName", userNameFromDb, 7);
-            // await JS.InvokeVoidAsync("setCookieAndReload", "userId", userId.ToString(), 7);
 
             var url = $"/cookie/updatecookie?userId={userId}&userName={Uri.EscapeDataString(userNameFromDb)}";
             NavigationManager.NavigateTo(url, forceLoad: true);
