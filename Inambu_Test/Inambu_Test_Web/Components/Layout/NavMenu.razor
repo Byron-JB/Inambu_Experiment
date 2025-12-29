@@ -2,9 +2,11 @@
 @using System.Net
 @inject MediatR.IMediator _mediator
 @rendermode InteractiveServer
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JS
 @inject IHttpContextAccessor HttpContextAccessor
 @inject Inambu_Test_Web.Services.CookieService _cookieService
+@inject NavigationManager NavigationManager
+
 
 <nav class="navbar navbar-expand-lg" style="background-color:#00245d">
     <div class="container-fluid">
@@ -56,7 +58,13 @@
 
 @code{
     Dictionary<int, string> listOfUsers = new();
-    string userName = string.Empty;
+    private string? _userName;
+
+    protected string? userName
+    {
+        get => _userName ?? _cookieService.GetUserNameFromCookie();
+        set => _userName = value;
+    }
 
     protected int? userID
     {
@@ -75,7 +83,9 @@
         if (httpContext != null)
         {
 
-            httpContext.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
+            // httpContext.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
+
+            string? userNameFromCookie = _cookieService.GetUserNameFromCookie();
 
             if (string.IsNullOrEmpty(userNameFromCookie))
             {
@@ -101,16 +111,11 @@
 
             userName = userNameFromDb;
 
-           // await SetCookies(userId, userNameFromDb);
+            // await JS.InvokeVoidAsync("setCookieAndReload", "userName", userNameFromDb, 7);
+            // await JS.InvokeVoidAsync("setCookieAndReload", "userId", userId.ToString(), 7);
 
-          await JSRuntime.InvokeVoidAsync(
-              "setMyCookie",
-                "userName",
-              userNameFromDb,
-              30
-          );
-
-          
+            var url = $"/cookie/updatecookie?userId={userId}&userName={Uri.EscapeDataString(userNameFromDb)}";
+            NavigationManager.NavigateTo(url, forceLoad: true);
         }
         catch (Exception)
         {
@@ -119,4 +124,6 @@
 
 
     }
+
+
 }

@@ -20,6 +20,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<CookieService>();
 
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -43,6 +44,8 @@ app.UseHttpsRedirection();
 
 
 app.UseAntiforgery();
+
+app.MapControllers();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
