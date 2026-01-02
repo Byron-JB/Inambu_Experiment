@@ -1,12 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistence.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
@@ -36,17 +30,17 @@ namespace Infrastructure.Persistence.Repository.Implementation
         }
 
         public void Dispose()
-        { 
+        {
         }
 
         public async Task<bool> SetMemberApprovalEntryStatusToRejected(int id)
         {
             try
             {
-                var itemsUpdated =await _context.tblExpenditureApprovalMembers
+                var itemsUpdated = await _context.tblExpenditureApprovalMembers
                     .Where(x => x.iMemberApprovalEntryId == id)
                     .ExecuteUpdateAsync(
-                        x => x.SetProperty(y => y.isRejected,true)
+                        x => x.SetProperty(y => y.isRejected, true)
                     );
 
                 return itemsUpdated > 0;

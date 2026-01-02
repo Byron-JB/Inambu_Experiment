@@ -1,15 +1,10 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistence.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
-    public class Measurement : IMeasurement , IDisposable
+    public class Measurement : IMeasurement, IDisposable
     {
         private readonly ApplicationDbContext _context;
 
@@ -55,8 +50,8 @@ namespace Infrastructure.Persistence.Repository.Implementation
         {
             try
             {
-               return await _context.tbMeasurements
-                    .FirstOrDefaultAsync(measurement => measurement.iMeasurementID == measurementId);
+                return await _context.tbMeasurements
+                     .FirstOrDefaultAsync(measurement => measurement.iMeasurementID == measurementId);
             }
             catch (Exception)
             {
@@ -115,7 +110,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
 
         public void Dispose()
         {
-            
+
         }
     }
 }

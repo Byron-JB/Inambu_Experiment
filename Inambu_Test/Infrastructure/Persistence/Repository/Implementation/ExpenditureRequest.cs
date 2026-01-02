@@ -1,12 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistence.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
@@ -14,7 +8,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
     {
         private readonly ApplicationDbContext _context;
 
-        public ExpenditureRequest(ApplicationDbContext context) 
+        public ExpenditureRequest(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -27,7 +21,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
                     .Include(x => x.tblExpenditureApprovalMembersNavigation)
                     .FirstOrDefaultAsync(x => x.expenditureRequestId == Id);
 
-                if(expenditureRequest == null) 
+                if (expenditureRequest == null)
                     return new tblExpenditureRequest();
 
                 return expenditureRequest;
@@ -57,7 +51,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
             }
         }
 
-        public async Task<List<tblExpenditureRequest>> GetAllPendingExpenditureRequestsAsync() 
+        public async Task<List<tblExpenditureRequest>> GetAllPendingExpenditureRequestsAsync()
         {
             try
             {
@@ -127,7 +121,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
             {
                 var recordsSaved = await _context.tblExpenditureRequests
                     .Where(x => x.expenditureRequestId == id)
-                    .ExecuteUpdateAsync( x => x.SetProperty(y => y.isRejected,true)
+                    .ExecuteUpdateAsync(x => x.SetProperty(y => y.isRejected, true)
                     );
 
                 return recordsSaved > 0;
@@ -139,7 +133,7 @@ namespace Infrastructure.Persistence.Repository.Implementation
             }
         }
 
-        public async Task<bool> SetExpenditureRequestToApproved(int id) 
+        public async Task<bool> SetExpenditureRequestToApproved(int id)
         {
             try
             {

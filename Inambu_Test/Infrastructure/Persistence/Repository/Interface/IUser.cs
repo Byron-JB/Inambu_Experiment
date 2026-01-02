@@ -1,9 +1,4 @@
 ﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Interface
 {
@@ -12,6 +7,6 @@ namespace Infrastructure.Persistence.Repository.Interface
         Task<string> GetUserNameByIdAsync(int userId);
         Task<int> GetUserIdByNameAsync(string userName);
         Task<List<tblUser>> GetAllUsersAsync();
-       
+
     }
 }

@@ -1,10 +1,5 @@
 ﻿using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Queries
 {
@@ -14,7 +9,7 @@ namespace Application.Features.Queries
     {
         private readonly IUser _user;
 
-        public GetUserNameByIdQueryHandler(IUser user) 
+        public GetUserNameByIdQueryHandler(IUser user)
         {
             _user = user;
         }
@@ -23,7 +18,7 @@ namespace Application.Features.Queries
         {
             try
             {
-                
+
                 return await _user.GetUserNameByIdAsync(request.userId);
 
             }

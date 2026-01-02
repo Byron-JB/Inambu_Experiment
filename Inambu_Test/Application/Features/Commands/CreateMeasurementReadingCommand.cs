@@ -1,14 +1,8 @@
 ﻿using Application.Contract.Common;
 using Application.Models.DTO;
 using Domain.Entities;
-using Infrastructure.Persistence.Repository.Implementation;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Commands
 {
@@ -20,7 +14,7 @@ namespace Application.Features.Commands
         private readonly IMeasurement _measurement;
         private readonly IProductionLine _productionLine;
 
-        public CreateMeasurementReadingCommandHandler(IMeasurement measurement,IProductionLine productionLine)
+        public CreateMeasurementReadingCommandHandler(IMeasurement measurement, IProductionLine productionLine)
         {
             _measurement = measurement;
             _productionLine = productionLine;
@@ -32,15 +26,15 @@ namespace Application.Features.Commands
 
             var productionLine = await _productionLine.GetProductionLineById(request.SafetyCapture.ProductionLineID);
 
-            if(productionLine == null)
+            if (productionLine == null)
             {
                 return CommandResult.Failure(
-                    new Error(System.Net.HttpStatusCode.NotFound,"Invalid Production Line ID"),request.SafetyCapture);
+                    new Error(System.Net.HttpStatusCode.NotFound, "Invalid Production Line ID"), request.SafetyCapture);
             }
 
             tblMeasurement measurement = new tblMeasurement()
             {
-                CreatedDate = DateTime.Now,              
+                CreatedDate = DateTime.Now,
                 dTemperature = request.SafetyCapture.Temperature,
                 dHumidity = request.SafetyCapture.Humidity,
                 dDepth = request.SafetyCapture.Depth,

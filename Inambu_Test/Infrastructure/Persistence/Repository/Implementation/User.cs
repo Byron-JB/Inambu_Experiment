@@ -1,19 +1,14 @@
 ﻿using Domain.Entities;
 using Infrastructure.Persistence.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository.Implementation
 {
-    public class User : IUser,IDisposable
+    public class User : IUser, IDisposable
     {
         private readonly ApplicationDbContext _context;
 
-        public User( IDbContextFactory<ApplicationDbContext> context ) 
+        public User(IDbContextFactory<ApplicationDbContext> context)
         {
             _context = context.CreateDbContext();
         }

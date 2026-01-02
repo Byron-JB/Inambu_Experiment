@@ -1,12 +1,6 @@
-﻿using Domain.Entities;
-using Infrastructure.Persistence;
+﻿using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Perisitence
 {
@@ -60,7 +54,7 @@ namespace Infrastructure.Perisitence
         /// </summary>
         public async Task SeedUserRoles()
         {
-            if (!_context.tblUserRoles.Any()) 
+            if (!_context.tblUserRoles.Any())
             {
                 await _context.tblUserRoles.AddRangeAsync(Seeds.GetSeedUserRoles());
                 await _context.SaveChangesAsync();

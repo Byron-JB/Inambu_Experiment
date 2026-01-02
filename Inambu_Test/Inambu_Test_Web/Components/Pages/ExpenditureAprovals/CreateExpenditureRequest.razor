@@ -1,9 +1,11 @@
 ﻿@page "/ExpenditureApproval/Create"
 @using Application.Features.Commands
 @using Application.Models.DTO
+@using System.Threading.Tasks
 @inject MediatR.IMediator _mediator
 @rendermode InteractiveServer
 @inject Inambu_Test_Web.Services.CookieService _cookieService
+@inject IJSRuntime JS
 
 <!-- Modal -->
 <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
@@ -48,13 +50,20 @@
     ExpenditureAprovalDTO expenditureAprovalDTO = new ExpenditureAprovalDTO();
 
 
-    private void HandleValidSubmitForExpenditureApproval(EditContext args)
+    private async Task HandleValidSubmitForExpenditureApproval(EditContext args)
     {
-        expenditureAprovalDTO.userID =(int) _cookieService.GetUserIdFromCookie();
+        expenditureAprovalDTO.userID = _cookieService.GetUserIdFromCookie() ?? -1;
 
         CreateExpenditureApprovalCommand command = new CreateExpenditureApprovalCommand(expenditureAprovalDTO);
 
-        var result = _mediator.Send(command);
+        var result =await _mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            StateHasChanged();// Close the modal programmatically
+           // await JS.("bootstrap.Modal.getInstance", "#basicModal");//.InvokeVoidAsync("hide");
+        }
+        }
 
     }
 }

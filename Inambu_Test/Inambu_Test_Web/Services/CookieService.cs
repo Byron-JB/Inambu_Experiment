@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
-using System.Data.SqlTypes;
 
 namespace Inambu_Test_Web.Services
 {
-    public class CookieService
+    public interface ICookieService
+    {
+        int? GetUserIdFromCookie();
+        string? GetUserNameFromCookie();
+        Task SetCookies(int userId, string userName);
+    }
+
+
+    public class CookieService : ICookieService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IDataProtector _protector;
+        private readonly string _cookieUserIdKey = "userId";
+        private readonly string _cookieUserNameKey = "userName";
 
         public CookieService(IHttpContextAccessor httpContextAccessor, IDataProtectionProvider provider)
         {
@@ -28,11 +37,18 @@ namespace Inambu_Test_Web.Services
             {
                 if (_httpContextAccessor is null || _httpContextAccessor.HttpContext is null) return 0;
 
-                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue("userId", out string? userIdFromCookie);
+                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(_cookieUserIdKey, out string? userIdFromCookie);
 
-                int.TryParse(userIdFromCookie, out int userIDConvertedToInt);
 
-                return Unprotect(userIDConvertedToInt);
+                //Note for future self:
+                //May want to throw an error if unprotect fails, which will ensure that no invalid data is processed
+                if (string.IsNullOrEmpty(userIdFromCookie)) return 0;
+
+                string unprotectedUserId = Unprotect(userIdFromCookie);
+
+                int.TryParse(Unprotect(userIdFromCookie), out int userIDConvertedToInt);
+
+                return userIDConvertedToInt;
             }
             catch (Exception)
             {
@@ -54,7 +70,7 @@ namespace Inambu_Test_Web.Services
             {
                 if (_httpContextAccessor is null || _httpContextAccessor.HttpContext is null) return null;
 
-                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue("userName", out string? userNameFromCookie);
+                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(_cookieUserNameKey, out string? userNameFromCookie);
                 if (string.IsNullOrEmpty(userNameFromCookie)) return null;
                 return Unprotect(userNameFromCookie);
             }
@@ -82,8 +98,8 @@ namespace Inambu_Test_Web.Services
 
             var httpContext = _httpContextAccessor.HttpContext;
 
-            httpContext.Response.Cookies.Append("userId", Protect(userId.ToString()), option);
-            httpContext.Response.Cookies.Append("userName", Protect(userName), option);
+            httpContext.Response.Cookies.Append(_cookieUserIdKey, Protect(userId.ToString()), option);
+            httpContext.Response.Cookies.Append(_cookieUserNameKey, Protect(userName), option);
 
         }
 

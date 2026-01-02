@@ -1,12 +1,6 @@
-﻿using Application.Contract.Common;
-using Application.Models.DTO;
+﻿using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Queries
 {
@@ -23,14 +17,14 @@ namespace Application.Features.Queries
         public async Task<List<ProductionLineDTO?>> Handle(GetProductionListQuery request, CancellationToken cancellationToken)
         {
             var productionLines = await _productionLine.GetAllProductionLines();
-            
+
             var productionLineDTOs = productionLines.Select(line => new ProductionLineDTO()
             {
                 ProductionLineId = line.iLineId,
                 ProductionLineName = line.strLineName
             });
-            
-            if(!productionLineDTOs.Any())
+
+            if (!productionLineDTOs.Any())
             {
                 return [];
             }

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Application.Models.DTO
 {
     public class MeasurementCaptureDTO
     {
         [SetsRequiredMembers]
-        public MeasurementCaptureDTO() 
+        public MeasurementCaptureDTO()
         {
-            
+
         }
 
         public required int Temperature { get; set; } = 0;

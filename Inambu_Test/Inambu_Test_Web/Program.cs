@@ -1,9 +1,7 @@
 using Application;
 using Inambu_Test_Web.Components;
 using Inambu_Test_Web.Services;
-using Infrastructure;
 using Infrastructure.Perisitence;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +16,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<CookieService>();
+builder.Services.AddScoped<ICookieService, CookieService>();
 
 builder.Services.AddControllers();
 

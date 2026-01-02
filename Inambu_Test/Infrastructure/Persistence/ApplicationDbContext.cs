@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public ApplicationDbContext() { }
 
@@ -39,7 +39,7 @@ namespace Infrastructure.Persistence
 
         public DbSet<tblProductionLine> tblProductionLines { get; set; }
         public DbSet<tblUser> tblUsers { get; set; }
-        public DbSet<tblMeasurement> tbMeasurements{  get; set; }
+        public DbSet<tblMeasurement> tbMeasurements { get; set; }
         public DbSet<tblUserRoles> tblUserRoles { get; set; }
         public DbSet<tblExpenditureRequest> tblExpenditureRequests { get; set; }
         public DbSet<tblExpenditureApprovalMembers> tblExpenditureApprovalMembers { get; set; }

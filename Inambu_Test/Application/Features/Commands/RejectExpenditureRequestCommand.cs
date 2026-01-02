@@ -10,7 +10,7 @@ namespace Application.Features.Commands
         private readonly IExpenditureRequest _expenditureRequest;
         private readonly IExpenditureApprovalMembers _expenditureApprovalMembers;
 
-        public RejectExpenditureRequestCommandHandler(IExpenditureApprovalMembers expenditureApprovalMembers,IExpenditureRequest expenditureRequest)
+        public RejectExpenditureRequestCommandHandler(IExpenditureApprovalMembers expenditureApprovalMembers, IExpenditureRequest expenditureRequest)
         {
             _expenditureApprovalMembers = expenditureApprovalMembers;
             _expenditureRequest = expenditureRequest;
@@ -22,7 +22,7 @@ namespace Application.Features.Commands
             {
                 var expenditureRequest = await _expenditureRequest.GetExpenditureRequestAsync(request.requestID);
 
-                var rejectExpenditureRequestresult =await _expenditureRequest.SetExpenditureRequestToRejected(request.requestID);
+                var rejectExpenditureRequestresult = await _expenditureRequest.SetExpenditureRequestToRejected(request.requestID);
 
                 var firstNonApprovedEntry = expenditureRequest.tblExpenditureApprovalMembersNavigation
                     .Where(x => x.isApproved == false)

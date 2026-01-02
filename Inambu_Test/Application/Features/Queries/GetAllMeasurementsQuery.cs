@@ -1,12 +1,11 @@
 ﻿using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using Microsoft.Kiota.Abstractions.Extensions;
 
 namespace Application.Features.Queries
 {
 
-    public record GetAllMeasurementsQuery( int userId ) : IRequest<List<MeasurementDTO>>;
+    public record GetAllMeasurementsQuery(int userId) : IRequest<List<MeasurementDTO>>;
 
     public class GetAllMeasurementsQueryHandler : IRequestHandler<GetAllMeasurementsQuery, List<MeasurementDTO>>
     {
@@ -48,6 +47,7 @@ namespace Application.Features.Queries
                 return measurements;
             }
 
-            return [];        }
+            return [];
+        }
     }
 }

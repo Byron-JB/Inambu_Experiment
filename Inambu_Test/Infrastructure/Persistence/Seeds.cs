@@ -31,7 +31,7 @@ namespace Infrastructure.Perisitence
                     CreatedDate = DateTime.Now,
                     IsDeleted = false,
                     strRoleName = "Finance Director"
-                },                
+                },
                 new tblUserRoles()
                 {
                     IsActive = true,
@@ -68,7 +68,7 @@ namespace Infrastructure.Perisitence
                     ModifiedBy = null,
                     ModifiedDate = null,
                     iRoleId = 4
-                },                
+                },
                 new tblUser
                 {
                     strUserName = "Inspector3",
@@ -131,7 +131,7 @@ namespace Infrastructure.Perisitence
                     IsDeleted = false,
                     ModifiedBy = null,
                     ModifiedDate = null
-                    
+
                 },
                 new tblProductionLine
                 {

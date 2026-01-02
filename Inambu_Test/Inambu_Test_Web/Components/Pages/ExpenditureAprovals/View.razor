@@ -1,0 +1,12 @@
+﻿@page "/ExpenditureAprovals/View/{Id:int}"
+
+@rendermode InteractiveServer
+@using Application.Features.Commands
+@using Application.Features.Queries
+@using Application.Models.DTO
+@inject MediatR.IMediator _mediator
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

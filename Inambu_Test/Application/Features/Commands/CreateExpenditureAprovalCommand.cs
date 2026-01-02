@@ -3,11 +3,6 @@ using Application.Models.DTO;
 using Domain.Entities;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Commands
 {
@@ -20,7 +15,7 @@ namespace Application.Features.Commands
         private readonly IUser _user;
         private readonly IExpenditureApprovalMembers _expenditureApprovalMembers;
 
-        public CreateExpenditureApprovalCommandHandler(IExpenditureRequest expenditureRequest,IUser user, IExpenditureApprovalMembers expenditureApprovalMembers)
+        public CreateExpenditureApprovalCommandHandler(IExpenditureRequest expenditureRequest, IUser user, IExpenditureApprovalMembers expenditureApprovalMembers)
         {
             _expenditureRequest = expenditureRequest;
             _user = user;

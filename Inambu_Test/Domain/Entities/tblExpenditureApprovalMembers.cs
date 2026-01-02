@@ -1,10 +1,5 @@
 ﻿using Domain.Common;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
@@ -21,7 +16,7 @@ namespace Domain.Entities
 
         public int? iUserId { get; set; }
         public virtual tblUser? User { get; set; }
-        public int? expenditureRequestId {  get; set; }
+        public int? expenditureRequestId { get; set; }
         public virtual tblExpenditureRequest? ExpenditureRequest { get; set; }
 
 

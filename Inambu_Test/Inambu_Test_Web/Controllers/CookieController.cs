@@ -1,7 +1,5 @@
 ﻿using Inambu_Test_Web.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Inambu_Test_Web.Controllers
 {
@@ -25,7 +23,7 @@ namespace Inambu_Test_Web.Controllers
         public async Task<IActionResult> UpdateCookie(int userId, string userName)
         {
 
-            await _cookieService.SetCookies(userId, userName);            
+            await _cookieService.SetCookies(userId, userName);
 
             // redirect back to the caller (or to root if no referer)
             var returnUrl = Request.Headers["Referer"].ToString();

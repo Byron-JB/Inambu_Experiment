@@ -1,15 +1,8 @@
 ﻿using Application.Models.DTO;
 using Application.Models.Enum;
 using Domain.Entities;
-using Infrastructure.Persistence.Repository.Implementation;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Queries
 {
@@ -30,7 +23,8 @@ namespace Application.Features.Queries
         {
             try
             {
-                switch(request.ApprovalFetchTypes)
+                // Fetch requests based on the type requested.
+                switch (request.ApprovalFetchTypes)
                 {
                     case ExpenditureApprovalFetchTypes.FetchApproved:
                         return await MapDTOAsync(await _expenditureRequest.GetAllApprovedExpenditureRequestsAsync());
@@ -60,7 +54,7 @@ namespace Application.Features.Queries
 
                 string createdUserName = "Unknown";
 
-                if(request.CreatedBy != null)
+                if (request.CreatedBy != null)
                     createdUserName = await _user.GetUserNameByIdAsync((int)request.CreatedBy!);
 
                 approvalDtoList.Add(

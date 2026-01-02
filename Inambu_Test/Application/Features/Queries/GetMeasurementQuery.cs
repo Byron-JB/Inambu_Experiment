@@ -1,11 +1,6 @@
 ﻿using Application.Models.DTO;
 using Infrastructure.Persistence.Repository.Interface;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Queries
 {
@@ -24,7 +19,7 @@ namespace Application.Features.Queries
         {
             try
             {
-                var measurement  = await _measurement.GetMeasurementById(request.MeasurementId);
+                var measurement = await _measurement.GetMeasurementById(request.MeasurementId);
 
                 return new MeasurementDTO()
                 {
