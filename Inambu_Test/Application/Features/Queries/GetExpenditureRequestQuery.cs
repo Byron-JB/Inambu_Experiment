@@ -54,7 +54,8 @@ namespace Application.Features.Queries
             }
             catch (Exception)
             {
-
+                //Insert error handling logic here
+                //If a request is not found, we must send an error back
                 throw;
             }
         }
