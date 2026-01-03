@@ -9,4 +9,12 @@
 @code {
     [Parameter]
     public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync(){
+        var query = new GetExpenditureRequestQuery(Id);
+        var result = await _mediator.Send(query);
+        var a = result;
+        // Handle the result as needed
+    }
+}
 }

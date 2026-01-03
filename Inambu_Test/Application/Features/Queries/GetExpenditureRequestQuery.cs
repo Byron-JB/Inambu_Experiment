@@ -24,6 +24,9 @@ namespace Application.Features.Queries
             {
                 var expenditureRequest = await _expenditureRequest.GetExpenditureRequestAsync(request.id);
 
+                if(expenditureRequest == null)
+                    throw new Exception("Expenditure Request not found.");
+
                 var formattedDTO = new ExpenditureAprovalDTO()
                 {
                     Description = expenditureRequest.strDescription,
@@ -34,7 +37,7 @@ namespace Application.Features.Queries
                     requestId = expenditureRequest.expenditureRequestId,
                 };
 
-                formattedDTO.ApprovalRecords = expenditureRequest.tblExpenditureApprovalMembersNavigation?
+                var mappedApprovalRecords = expenditureRequest.tblExpenditureApprovalMembersNavigation?
                     .Select(async x => new ExpenditureApprovalRecordsDTO()
                     {
                         ApprovalUserId = (int)x.iUserId,
@@ -42,8 +45,10 @@ namespace Application.Features.Queries
                         CreatedBy = (x.CreatedBy != null || x.CreatedBy != 0) ? (await _user.GetUserNameByIdAsync((int)x.CreatedBy)) : "Unknown",
                         IsApproved = x.isApproved,
                         IsRejected = x.isRejected,
-                    })
-                    as List<ExpenditureApprovalRecordsDTO>;
+                    });
+
+                if (mappedApprovalRecords != null && (await Task.WhenAll(mappedApprovalRecords)).Any()) 
+                    formattedDTO.ApprovalRecords.AddRange(await Task.WhenAll(mappedApprovalRecords));
 
                 return formattedDTO;
             }

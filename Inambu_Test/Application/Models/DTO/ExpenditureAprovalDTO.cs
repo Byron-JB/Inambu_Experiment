@@ -10,7 +10,7 @@
         public bool IsRejected { get; set; }
         public int userID { get; set; }
         public string CreatedBy { get; set; } = string.Empty;
-        public List<ExpenditureApprovalRecordsDTO>? ApprovalRecords { get; set; }
+        public List<ExpenditureApprovalRecordsDTO>? ApprovalRecords { get; set; } = new List<ExpenditureApprovalRecordsDTO>();
     }
 
     public class ExpenditureApprovalRecordsDTO
